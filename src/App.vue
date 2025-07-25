@@ -1,9 +1,11 @@
 <script setup>
-import MainComponent from "@/components/MainComponent.vue";
+import OreComponent from "@/components/OreComponent.vue";
+import NavbarComponent from "@/components/NavbarComponent.vue";
 </script>
 
 <template>
-<MainComponent></MainComponent>
+  <NavbarComponent></NavbarComponent>
+  <router-view />
 </template>
 
 <style scoped>
