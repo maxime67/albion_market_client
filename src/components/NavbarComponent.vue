@@ -1,4 +1,6 @@
 <template>
+<!--  TODO: -->
+<!--  Afficher les liens de manière verticla, ores au dessus de metalBar, Hide au dessus de Cloths etc-->
   <nav class="w-full bg-slate-800 shadow-lg border-b border-slate-700">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-center py-4">
