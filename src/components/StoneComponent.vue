@@ -13,14 +13,13 @@ import { onMounted, ref } from 'vue';
 import itemService from "@/services/itemService.js";
 import ItemComponent from "@/components/ItemComponent.vue";
 
-
 export default {
   components: {ItemComponent},
   setup() {
     const data = ref([]);
 
     const test = async () => {
-      data.value = (await itemService.getLeather());
+      data.value = (await itemService.getStone());
     };
 
     const formatPrice = (price) => {

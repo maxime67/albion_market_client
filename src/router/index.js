@@ -8,6 +8,8 @@ import metalBarComponent from "@/components/MetalBarComponent.vue";
 import clothComponent from "@/components/ClothComponent.vue";
 import stoneBlockComponent from "@/components/StoneBlockComponent.vue";
 import plankComponent from "@/components/PlankComponent.vue";
+import StoneComponent from "@/components/StoneComponent.vue";
+import itemCompleteComponent from "@/components/itemCompleteComponent.vue";
 
 const routes = [
     { path: '/', component: OreComponent },
@@ -19,6 +21,8 @@ const routes = [
     { path: '/cloth', component: clothComponent },
     { path: '/stoneBlock', component: stoneBlockComponent },
     { path: '/planks', component: plankComponent },
+    { path: '/stone', component: StoneComponent },
+    { path: '/item', component: itemCompleteComponent },
 ];
 
 const router = createRouter({

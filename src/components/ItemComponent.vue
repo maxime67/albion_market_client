@@ -136,7 +136,6 @@ const sortedPrices = computed(() => {
             <!-- Image de l'item -->
             <div>
               <h3 class="text-lg font-semibold text-white">{{ price.city }}</h3>
-              <div class="text-sm text-gray-400">Qualité {{ price.quality || 'Standard' }}</div>
             </div>
           </div>
 
@@ -157,7 +156,6 @@ const sortedPrices = computed(() => {
             <span :class="getPriceColor(price.sell_price_min).split(' ')[0] + ' text-2xl font-bold'">
               {{ formatPrice(price.sell_price_min) }}
             </span>
-            <span class="text-gray-400 text-sm">argent</span>
           </div>
 
           <!-- Indicateur de variance -->

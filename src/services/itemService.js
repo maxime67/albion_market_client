@@ -99,6 +99,20 @@ export default {
         }
         return response;
     },
+    async getStone() {
+        let response = []
+        const ores = [
+            // "T2_ORE","T2_ORE_LEVEL2@2","T2_ORE_LEVEL3@3","T2_ORE_LEVEL4@4",
+            "T2_ROCK","T3_ROCK",
+            "T4_ROCK",
+            "T5_ROCK",
+            "T6_ROCK",
+        ]
+        for (let i = 0; i < ores.length; i++) {
+            response.push(await api.get('name/' + ores[i]));
+        }
+        return response;
+    },
     async getStoneBlock() {
         let response = []
         const ores = [
