@@ -139,6 +139,11 @@ export default {
         for (let i = 0; i < ores.length; i++) {
             response.push(await api.get('name/' + ores[i]));
         }
+        console.log(await this.getPricesForCharts("T2_PLANKS"))
         return response;
     },
+
+    async getPricesForCharts(uniqueName) {
+        return api.get("name/time/" + uniqueName)
+    }
 };

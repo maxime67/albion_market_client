@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "vue";
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   item: {
@@ -8,7 +9,19 @@ const props = defineProps({
   }
 });
 
+const router = useRouter();
 const item = computed(() => props.item);
+
+
+// Fonction pour naviguer vers le composant détaillé
+const navigateToDetail = () => {
+  router.push({
+    path: '/item',
+    query: {
+      itemData: JSON.stringify(item.value?.data?.UniqueName)
+    }
+  });
+};
 
 const formatPrice = (price) => {
   if (!price) return 'N/A';
@@ -90,11 +103,12 @@ const sortedPrices = computed(() => {
     <!-- En-tête de l'item -->
     <div class="bg-gray-800/50 rounded-lg p-6">
       <div class="flex items-center space-x-4 mb-4">
-        <!-- Image principale de l'item -->
+        <!-- Image principale de l'item - Cliquable pour navigation -->
         <img
             :src="`https://render.albiononline.com/v1/item/${item.data?.UniqueName || 'T1_BACKPACK'}`"
             :alt="`Image de ${item.data?.LocalizedNames?.['FR-FR'] || 'item'}`"
-            class="w-24 h-24 rounded-lg p-2"
+            class="w-24 h-24 rounded-lg p-2 cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all duration-200 hover:scale-105"
+            @click="navigateToDetail"
             @error="$event.target.src = 'https://render.albiononline.com/v1/item/T1_BACKPACK'"
         >
         <div>
@@ -102,6 +116,10 @@ const sortedPrices = computed(() => {
             {{ item.data?.LocalizedNames?.['FR-FR'] || item.data?.LocalizedNames?.['EN-US'] || 'Nom indisponible' }}
           </h2>
           <div class="text-sm text-gray-400 mt-1">{{ item.data?.UniqueName || 'ID indisponible' }}</div>
+          <!-- Indicateur cliquable -->
+          <div class="text-xs text-blue-400 mt-2 cursor-pointer hover:text-blue-300" @click="navigateToDetail">
+            📊 Cliquez sur l'image pour voir les détails et graphiques
+          </div>
         </div>
       </div>
       <br>
@@ -167,45 +185,6 @@ const sortedPrices = computed(() => {
             </div>
           </div>
         </div>
-
-        <!-- Informations détaillées -->
-        <div class="space-y-2 text-sm">
-<!--          <div class="flex justify-between" v-if="price.buy_price_max">-->
-<!--            <span class="text-gray-400">Prix d'achat max:</span>-->
-<!--            <span class="text-blue-400 font-medium">{{ formatPrice(price.buy_price_max) }}</span>-->
-<!--          </div>-->
-
-<!--          <div class="flex justify-between" v-if="price.sell_price_max">-->
-<!--            <span class="text-gray-400">Prix de vente max:</span>-->
-<!--            <span class="text-purple-400 font-medium">{{ formatPrice(price.sell_price_max) }}</span>-->
-<!--          </div>-->
-
-          <!-- Calcul de marge potentielle -->
-<!--          <div-->
-<!--              v-if="price.buy_price_max && price.sell_price_min && price.sell_price_min > price.buy_price_max"-->
-<!--              class="flex justify-between pt-2 border-t border-gray-600"-->
-<!--          >-->
-<!--            <span class="text-gray-400">Marge potentielle:</span>-->
-<!--            <span class="text-green-400 font-semibold">-->
-<!--              {{ formatPrice(price.sell_price_min - price.buy_price_max) }}-->
-<!--            </span>-->
-<!--          </div>-->
-        </div>
-
-        <!-- Barre de progression visuelle du prix -->
-<!--        <div class="mt-4" v-if="priceStats.max > priceStats.min">-->
-<!--          <div class="w-full bg-gray-700 rounded-full h-2">-->
-<!--            <div-->
-<!--                class="h-2 rounded-full transition-all duration-300"-->
-<!--                :class="getPriceColor(price.sell_price_min).split(' ')[0].replace('text-', 'bg-')"-->
-<!--                :style="{ width: ((price.sell_price_min - priceStats.min) / (priceStats.max - priceStats.min)) * 100 + '%' }"-->
-<!--            ></div>-->
-<!--          </div>-->
-<!--          <div class="flex justify-between text-xs text-gray-500 mt-1">-->
-<!--            <span>{{ formatPrice(priceStats.min) }}</span>-->
-<!--            <span>{{ formatPrice(priceStats.max) }}</span>-->
-<!--          </div>-->
-<!--        </div>-->
       </div>
     </div>
 
