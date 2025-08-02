@@ -1,49 +1,130 @@
 <template>
   <div class="p-4">
-    <div v-if="data" class="bg-gray-800 rounded-lg p-6">
+    <!-- Section des filtres -->
+    <div class="bg-gray-800 rounded-lg p-6 mb-6">
+      <div class="flex flex-col items-center justify-center gap-4 mb-4">
+        <!-- Boutons Tier -->
+        <div class="flex flex-wrap gap-4 justify-center">
+          <button
+              v-for="tier in [2, 3, 4, 5, 6]"
+              :key="tier"
+              @click="selectedTier = tier"
+              :class="selectedTier === tier ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'"
+              class="px-4 py-2 rounded-lg font-medium"
+          >
+            Tier {{ tier }}
+          </button>
+        </div>
+
+        <!-- Boutons Enchantement -->
+        <div class="flex flex-wrap gap-4 justify-center">
+          <button
+              v-for="enchant in enchantments"
+              :key="enchant.value"
+              @click="selectedEnchantment = enchant.value"
+              :class="enchant.color"
+              class="px-4 py-2 rounded-lg font-medium"
+          >
+            {{ enchant.label }}
+          </button>
+        </div>
+        <button
+            @click="loadData"
+            :disabled="loading"
+            class="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium flex items-center gap-2"
+        >
+          <div v-if="loading" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          {{ loading ? 'Chargement...' : 'Charger les données' }}
+        </button>
+      </div>
+
+      <!-- Bouton de chargement et titre -->
+      <div class="flex justify-between items-center">
+        <div class="text-2xl text-gray-400">
+          {{ selectedTier }}.{{ enchantments.find(e => e.value === selectedEnchantment)?.label }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Affichage des données -->
+    <div v-if="data.length && !loading" class="bg-gray-800 rounded-lg p-6">
       <div v-for="item in data" :key="item.id" class="p-3">
         <item-component :item="item"></item-component>
+      </div>
+    </div>
+
+    <!-- Message si aucune donnée -->
+    <div v-else-if="!loading" class="bg-gray-800 rounded-lg p-6 text-center">
+      <div class="text-gray-400 text-lg">Aucune donnée disponible</div>
+      <div class="text-gray-500 text-sm mt-2">
+        Sélectionnez un tier et un enchantement, puis cliquez sur "Charger les données"
+      </div>
+    </div>
+
+    <!-- Indicateur de chargement -->
+    <div v-if="loading" class="bg-gray-800 rounded-lg p-6 text-center">
+      <div class="flex items-center justify-center gap-2">
+        <div class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <span class="text-white">Chargement des minerais...</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import itemService from "@/services/itemService.js";
 import ItemComponent from "@/components/ItemComponent.vue";
 
 export default {
-  components: {ItemComponent},
+  components: { ItemComponent },
   setup() {
     const data = ref([]);
+    const loading = ref(false);
+    const selectedTier = ref(4);
+    const selectedEnchantment = ref(0);
 
-    const test = async () => {
-      data.value = (await itemService.getOres());
-    };
+    const enchantments = [
+      { value: 0, label: '0', color: "bg-gradient-to-br from-purple-400 to-purple-700"},
+      { value: 1, label: '1', color: "bg-gradient-to-br from-green-400 to-green-700"},
+      { value: 2, label: '2', color: "bg-gradient-to-br from-blue-400 to-blue-700"},
+      { value: 3, label: '3', color: "bg-gradient-to-br from-purple-400 to-purple-700"},
+      { value: 4, label: '4', color: "bg-gradient-to-br from-yellow-400 to-yellow-700"}
+    ];
 
-    const formatPrice = (price) => {
-      if (!price || price === 0) return 'N/A';
-      return price
-    };
-
-    const formatDate = (dateString) => {
-      if (!dateString || dateString === '0001-01-01T00:00:00') return 'N/A';
-      return new Date(dateString).toLocaleDateString('fr-FR');
-    };
-
-    onMounted(() => {
-      test();
+    const oreName = computed(() => {
+      const tier = selectedTier.value;
+      const enchant = selectedEnchantment.value;
+      let name = `T${tier}_ORE`;
+      if (enchant > 0 && tier > 3) {
+        name += `_LEVEL${enchant}@${enchant}`;
+      }
+      return name;
     });
+
+    const loadData = async () => {
+      loading.value = true;
+      try {
+        const response = await itemService.getSingleOre(oreName.value);
+        data.value = [response];
+      } catch (error) {
+        console.error('Erreur:', error);
+        data.value = [];
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    onMounted(loadData);
 
     return {
       data,
-      formatPrice,
-      formatDate
+      loading,
+      selectedTier,
+      selectedEnchantment,
+      enchantments,
+      loadData
     };
   }
 };
 </script>
-
-<style scoped>
-</style>
