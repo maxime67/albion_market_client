@@ -3,7 +3,7 @@
     'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
     isScrolled
       ? 'bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-200/50'
-      : 'bg-slate-800/90 backdrop-blur-sm border-b border-slate-700/50'
+      : 'bg-gradient-to-r from-blue-900 via-blue-800 to-purple-900/90 backdrop-blur-sm border-b border-white/10'
   ]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
@@ -15,7 +15,7 @@
               'w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg transition-all duration-300 transform group-hover:scale-110',
               isScrolled
                 ? 'bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-lg'
-                : 'bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg'
+                : 'bg-gradient-to-br from-white/20 to-white/10 text-white shadow-lg border border-white/30'
             ]">
               A
             </div>
@@ -35,15 +35,21 @@
               :key="item.path"
               :to="item.path"
               :class="[
-              'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
+              'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 group',
               getItemClasses(item.path)
             ]"
           >
-            <span class="relative z-10">{{ item.name }}</span>
+            <span class="relative z-10 flex items-center space-x-2">
+              <span class="text-lg">{{ item.icon }}</span>
+              <span>{{ item.name }}</span>
+            </span>
 
             <!-- Active indicator -->
             <div v-if="isActiveRoute(item.path)"
                  class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg shadow-blue-500/25"></div>
+
+            <!-- Hover effect -->
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-600/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </router-link>
         </div>
 
@@ -91,7 +97,7 @@
       ]">
         <div :class="[
           'pt-4 space-y-2 border-t',
-          isScrolled ? 'border-gray-200' : 'border-slate-600'
+          isScrolled ? 'border-gray-200' : 'border-white/20'
         ]">
           <router-link
               v-for="item in navigationItems"
@@ -99,11 +105,12 @@
               :to="item.path"
               @click="closeMobileMenu"
               :class="[
-              'block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 transform hover:scale-105',
+              'flex items-center space-x-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 transform hover:scale-105',
               getMobileItemClasses(item.path)
             ]"
           >
-            {{ item.name }}
+            <span class="text-lg">{{ item.icon }}</span>
+            <span>{{ item.name }}</span>
           </router-link>
         </div>
       </div>
@@ -120,16 +127,16 @@ const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 
 const navigationItems = [
-  { name: 'Ores', path: '/ore' },
-  { name: 'Metal Bar', path: '/metalBar' },
-  { name: 'Wood', path: '/wood' },
-  { name: 'Planks', path: '/planks' },
-  { name: 'Cotton', path: '/fiber' },
-  { name: 'Cloth', path: '/cloth' },
-  { name: 'Hide', path: '/hide' },
-  { name: 'Leather', path: '/leather' },
-  { name: 'Stone', path: '/rock' },
-  { name: 'Stone Block', path: '/stoneblock' }
+  { name: 'Ores', path: '/ore', icon: '⛏️' },
+  { name: 'Metal Bar', path: '/metalBar', icon: '🔩' },
+  { name: 'Wood', path: '/wood', icon: '🪵' },
+  { name: 'Planks', path: '/planks', icon: '🪵' },
+  { name: 'Cotton', path: '/fiber', icon: '🌿' },
+  { name: 'Cloth', path: '/cloth', icon: '🧵' },
+  { name: 'Hide', path: '/hide', icon: '🦌' },
+  { name: 'Leather', path: '/leather', icon: '🛡️' },
+  { name: 'Stone', path: '/rock', icon: '🪨' },
+  { name: 'Stone Block', path: '/stoneblock', icon: '🧱' }
 ]
 
 const isActiveRoute = (path) => {
@@ -139,8 +146,8 @@ const isActiveRoute = (path) => {
 const getItemClasses = (path) => {
   const isActive = isActiveRoute(path)
   const baseClasses = isScrolled.value
-      ? 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
-      : 'text-slate-300 hover:text-white hover:bg-white/10'
+      ? 'text-slate-600 hover:text-blue-600'
+      : 'text-slate-200 hover:text-white'
 
   if (isActive) {
     return 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40'
@@ -153,7 +160,7 @@ const getMobileItemClasses = (path) => {
   const isActive = isActiveRoute(path)
   const baseClasses = isScrolled.value
       ? 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
-      : 'text-slate-300 hover:text-white hover:bg-white/10'
+      : 'text-slate-200 hover:text-white hover:bg-white/10'
 
   if (isActive) {
     return 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg'
