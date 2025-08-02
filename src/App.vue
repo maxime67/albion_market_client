@@ -1,5 +1,5 @@
 <script setup>
-import OreComponent from "@/components/OreComponent.vue";
+import MainComponent from "@/components/MainComponent.vue";
 import NavbarComponent from "@/components/NavbarComponent.vue";
 </script>
 

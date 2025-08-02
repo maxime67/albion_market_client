@@ -45,7 +45,7 @@
           <!-- Colonne 3: Cotton / Stone Block -->
           <div class="flex flex-col items-center gap-3">
             <router-link
-                to="/cotton"
+                to="/fiber"
                 class="relative px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-700 rounded-lg transition-all duration-300 ease-in-out hover:text-white hover:bg-slate-600 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 active-class="text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg shadow-blue-500/25"
             >
@@ -72,17 +72,17 @@
             </router-link>
 
             <router-link
-                to="/cloth"
+                to="/leather"
                 class="relative px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-700 rounded-lg transition-all duration-300 ease-in-out hover:text-white hover:bg-slate-600 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 active-class="text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg shadow-blue-500/25"
             >
-              <span class="relative z-10">Cloth</span>
+              <span class="relative z-10">Leather</span>
             </router-link>
           </div>
 
           <div class="flex flex-col items-center gap-3">
             <router-link
-                to="/stone"
+                to="/rock"
                 class="relative px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-700 rounded-lg transition-all duration-300 ease-in-out hover:text-white hover:bg-slate-600 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 active-class="text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg shadow-blue-500/25"
             >

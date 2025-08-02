@@ -35,7 +35,6 @@ const props = defineProps({
 });
 
 // Variables réactives
-const router = useRouter();
 const item = computed(() => props.item);
 const activeChart = ref('prices'); // Onglet actif : 'prices' ou 'volume'
 
